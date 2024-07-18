@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install latest version of Apache
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Create index file
+      shell:
+        echo "Hello world $(hostname -f)" > /var/www/html/index.html
+
+    - name: restart-apache
+      service:
+        name: apache2
+        state: restarted
